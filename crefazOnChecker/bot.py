@@ -6,7 +6,7 @@ import pandas as pd
 class Bot(DesktopBot):
     def action(self, execution=None):
 
-        tabela = pd.read_excel(str(r'C:\Users\efranca\Documents\python\prospection_recall\crefazOnChecker\crefazOnChecker\rechamada_CrefazOn.xlsx'), dtype=str)
+        tabela = pd.read_excel(str(r'C:\Users\efranca\Desktop\checker\crefaz-on-checker\crefazOnChecker\rechamada_071222_1200.xlsx'), dtype=str)
 
         self.browse("https://crefazon.com.br/")
 
@@ -16,7 +16,6 @@ class Bot(DesktopBot):
             nome = tabela.loc[i,'Nome']
             data_nasc = tabela.loc[i,'Data de Nascimento']
             new_data = str(pd.to_datetime(data_nasc, dayfirst=True).date())
-            # new_data = str(pd.to_datetime(data_nasc, dayfirst=True).date())
             splited = new_data.split('-')
             data = splited[2]+splited[1]+splited[0]
             telefone = tabela.loc[i,'Telefone']
@@ -26,7 +25,7 @@ class Bot(DesktopBot):
             print('===============================')
             print(f'CPF: {cpf}')
             print(f'Nome: {nome}')
-            print(f'Data de Nascimento: {new_data}')
+            print(f'Data de Nascimento: {new_data}') 
             print(f'Data de Nascimento convertida: {splited[2]+splited[1]+splited[0]}')
             print(f'Telefone: {telefone}')
             print(f'Classificação: {classificacao}')
@@ -34,156 +33,106 @@ class Bot(DesktopBot):
             print('===============================')
             self.wait(2000)
 
+          
             if self.find( "creditoFind", matching=0.97, waiting_time=60000):
-                self.not_found("creditoFind")
+                self.not_found("creditoFind")         
             self.click()
-            self.wait(250)
+            self.wait(100)
             
             if self.find( "propostaFind", matching=0.97, waiting_time=60000):
                 self.not_found("propostaFind")
             self.click()
-            self.wait(250)
+            self.wait(100)
 
             if self.find( "newProposalFind", matching=0.97, waiting_time=60000):
                 self.not_found("newProposalFind")
             self.click()
-            self.wait(250)
+            self.wait(100)
             
             if self.find( "firstParameter", matching=0.97, waiting_time=60000):
                 self.not_found("firstParameter")
                 self.click_relative(17, 42)
                 self.paste(cpf)
                 self.tab()
+                self.wait(500)
                 if self.find( "CPFinvalido", matching=0.97, waiting_time=1000):
                     self.not_found("CPFinvalido")
                     self.key_f5()
                     continue
-                if self.find( "ofertasFind", matching=0.97, waiting_time=1000):
-                    self.not_found("ofertasFind")                               
-                    fpc = cpf
-                    name = nome
-                    date = data
-                    phone = telefone
-                    classification = classificacao
-                    pec = cep
-                    if self.find( "planilhaFind", matching=0.97, waiting_time=250):
-                        self.not_found("planilhaFind")
-                    self.click()
-                    self.wait(50)
-                    self.paste(fpc)
-                    self.wait(50)
-                    self.tab()
-                    self.paste(name)
-                    self.wait(50)
-                    self.tab()
-                    self.paste(date)
-                    self.wait(50)
-                    self.tab()
-                    self.paste(phone)
-                    self.wait(50)
-                    self.tab()
-                    self.paste(classification)
-                    self.wait(50)
-                    self.tab()
-                    self.paste(pec)
-                    self.wait(50)
-                    self.enter()
-                    if self.find( "firstChromeFind", matching=0.97, waiting_time=2000):
-                        self.not_found("firstChromeFind")                    
-                    self.click()                
-                    self.key_f5()
+                if self.find( "ofertasFind", matching=0.97, waiting_time=3000):
+                    self.not_found("ofertasFind")
                     continue
 
-
-            if self.find( "proposalGoing", matching=0.97, waiting_time=1000):
-                self.not_found("proposalGoing")
-                self.wait(250)
+            # person section 웃
+            if self.find( "nameAvailable", matching=0.97, waiting_time=60000):
+                self.not_found("nameAvailable")
+                self.control_a()
+                self.paste(nome)
+                self.tab()  
+                self.wait(100)
+                if self.find( "nomeINVALIDO", matching=0.97, waiting_time=1000):
+                    self.not_found("nomeINVALIDO")
+                    self.key_f5()
+                    continue
+            
+            # date section 📅
+            if self.find( "dateAvailable", matching=0.97, waiting_time=60000):
+                self.not_found("dateAvailable")
+                self.click_relative(62, 41)
+                self.control_a()
+                self.paste(data)
+                self.tab()
+                self.wait(100)
+                if self.find( "dataINVALIDA", matching=0.97, waiting_time=1000):
+                    self.not_found("dataINVALIDA")
+                    self.key_f5()
+                    continue
+            
+            #phone section 📞
+            if self.find( "phoneAvailable", matching=0.97, waiting_time=60000):
+                self.not_found("phoneAvailable")
+                self.click_relative(65, 41)            
+                self.control_a()
+                self.paste(telefone)
+                self.tab()
+                self.wait(100)
+                if self.find( "telefoneINVALIDO", matching=0.97, waiting_time=1000):
+                    self.not_found("telefoneINVALIDO")
+                    self.key_f5()
+                    continue
+            
+            #classification section
+            if self.find( "classificationFind", matching=0.97, waiting_time=60000):
+                self.not_found("classificationFind")
+                self.click_relative(69, 44)            
+                self.control_a()
+                self.paste(classificacao)
+                self.wait(100)
                 self.enter()
-                self.key_f5()
-                continue
-                
-            self.control_a()
-            self.paste(nome)
-            self.tab()
-            if self.find( "nomeINVALIDO", matching=0.97, waiting_time=1000):
-                self.not_found("nomeINVALIDO")
-                self.key_f5()
-                continue
-            self.wait(250)
-            self.control_a()
-            self.paste(data)
-            self.tab()
-            self.wait(250)
-            if self.find( "dataINVALIDA", matching=0.97, waiting_time=1000):
-                self.not_found("dataINVALIDA")
-                self.key_f5()
-                continue
-            self.control_a()
-            self.paste(telefone)
-            self.tab()
-            self.wait(250)
-            if self.find( "telefoneINVALIDO", matching=0.97, waiting_time=1000):
-                self.not_found("telefoneINVALIDO")
-                self.key_f5()
-                continue
-            self.control_a()
-            self.paste(classificacao)
-            self.wait(250)
-            self.enter()
-            self.tab()
-            self.control_a()
-            self.paste(cep)
-            self.tab()
-            self.wait(250)
-            if self.find( "CEPinvalido", matching=0.97, waiting_time=1000):
-                self.not_found("CEPinvalido")
-                self.key_f5()
-                continue
+                self.tab()
+            
+            #cep section
+            if self.find( "cepFind", matching=0.97, waiting_time=60000):
+                self.not_found("cepFind")
+                self.click_relative(48, 45)            
+                self.control_a()
+                self.paste(cep)
+                self.tab()
+                self.wait(100)
+                if self.find( "CEPinvalido", matching=0.97, waiting_time=1000):
+                    self.not_found("CEPinvalido")
+                    self.key_f5()
+                    continue
+            
+            #advance green button
             self.wait(1000)
             self.enter()
             
-            if self.find( "deniedFind", matching=0.97, waiting_time=20000):
+            if self.find( "deniedFind", matching=0.97, waiting_time=15000):
                 self.not_found("deniedFind")
                 self.enter()
-                self.wait(250)
+                self.wait(100)
                 self.key_f5()
-                continue
-                
-            if self.find( "offerFind", matching=0.97, waiting_time=20000):
-                self.not_found("offerFind")                            
-                fpc = cpf
-                name = nome
-                date = data
-                phone = telefone
-                classification = classificacao
-                pec = cep
-                if self.find( "planilhaFind", matching=0.97, waiting_time=1000):
-                    self.not_found("planilhaFind")
-                self.click()
-                self.wait(50)
-                self.paste(fpc)
-                self.wait(50)
-                self.tab()
-                self.paste(name)
-                self.wait(50)
-                self.tab()
-                self.paste(date)
-                self.wait(50)
-                self.tab()
-                self.paste(phone)
-                self.wait(50)
-                self.tab()
-                self.paste(classification)
-                self.wait(50)
-                self.tab()
-                self.paste(pec)
-                self.wait(50)
-                self.enter()
-                self.wait(100)
-                if self.find( "navegadorFind", matching=0.97, waiting_time=1000):
-                    self.not_found("navegadorFind")              
-                self.click()                
-                self.wait(100)
                 continue
         
         else:
@@ -197,3 +146,48 @@ class Bot(DesktopBot):
 
 if __name__ == '__main__':
     Bot.main()
+
+
+
+# PLANILHA PATH 
+#     fpc = cpf
+                #     name = nome
+                #     date = data
+                #     phone = telefone
+                #     classification = classificacao
+                #     pec = cep
+                #     if self.find( "planilhaFind", matching=0.97, waiting_time=250):
+                #         self.not_found("planilhaFind")
+                #     self.click()
+                #     self.wait(50)
+                #     self.paste(fpc)
+                #     self.wait(50)
+                #     self.tab()
+                #     self.paste(name)
+                #     self.wait(50)
+                #     self.tab()
+                #     self.paste(date)
+                #     self.wait(50)
+                #     self.tab()
+                #     self.paste(phone)
+                #     self.wait(50)
+                #     self.tab()
+                #     self.paste(classification)
+                #     self.wait(50)
+                #     self.tab()
+                #     self.paste(pec)
+                #     self.wait(50)
+                #     self.enter()
+                #     if self.find( "secondChromeFind", matching=0.97, waiting_time=2000):
+                #         self.not_found("secondChromeFind")                    
+                #     self.click()                
+                #     self.key_f5()
+                #     continue
+
+
+            # if self.find( "proposalGoing", matching=0.97, waiting_time=1000):
+            #     self.not_found("proposalGoing")
+            #     self.wait(250)
+            #     self.enter()
+            #     self.key_f5()
+            #     continue
