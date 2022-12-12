@@ -31,40 +31,42 @@ class Bot(DesktopBot):
             print(f'Classificação: {classificacao}')
             print(f'CEP: {cep}')
             print('===============================')
-            self.wait(2000)
-
           
-            if self.find( "creditoFind", matching=0.97, waiting_time=60000):
-                self.not_found("creditoFind")         
+            self.wait(1000)            
+            if self.find( "creditoFind", matching=0.97, waiting_time=240000):
+                self.not_found("creditoFind") 
             self.click()
             self.wait(100)
             
-            if self.find( "propostaFind", matching=0.97, waiting_time=60000):
+            if self.find( "propostaFind", matching=0.97, waiting_time=240000):
                 self.not_found("propostaFind")
             self.click()
             self.wait(100)
 
-            if self.find( "newProposalFind", matching=0.97, waiting_time=60000):
+            if self.find( "newProposalFind", matching=0.97, waiting_time=240000):
                 self.not_found("newProposalFind")
             self.click()
             self.wait(100)
             
-            if self.find( "firstParameter", matching=0.97, waiting_time=60000):
+            if self.find( "firstParameter", matching=0.97, waiting_time=240000):
                 self.not_found("firstParameter")
                 self.click_relative(17, 42)
                 self.paste(cpf)
                 self.tab()
-                self.wait(500)
-                if self.find( "CPFinvalido", matching=0.97, waiting_time=1000):
+                if self.find( "propostaEmAndamento", matching=0.97, waiting_time=2000):
+                    self.not_found("propostaEmAndamento")
+                    self.enter()
+                    continue
+                if self.find( "CPFinvalido", matching=0.97, waiting_time=2000):
                     self.not_found("CPFinvalido")
                     self.key_f5()
                     continue
-                if self.find( "ofertasFind", matching=0.97, waiting_time=3000):
+                if self.find( "ofertasFind", matching=0.97, waiting_time=2000):
                     self.not_found("ofertasFind")
                     continue
 
             # person section 웃
-            if self.find( "nameAvailable", matching=0.97, waiting_time=60000):
+            if self.find( "nameAvailable", matching=0.97, waiting_time=240000):
                 self.not_found("nameAvailable")
                 self.control_a()
                 self.paste(nome)
@@ -76,9 +78,9 @@ class Bot(DesktopBot):
                     continue
             
             # date section 📅
-            if self.find( "dateAvailable", matching=0.97, waiting_time=60000):
+            if self.find( "dateAvailable", matching=0.97, waiting_time=240000):
                 self.not_found("dateAvailable")
-                self.click_relative(62, 41)
+                self.click_relative(69, 42)
                 self.control_a()
                 self.paste(data)
                 self.tab()
@@ -89,7 +91,7 @@ class Bot(DesktopBot):
                     continue
             
             #phone section 📞
-            if self.find( "phoneAvailable", matching=0.97, waiting_time=60000):
+            if self.find( "phoneAvailable", matching=0.97, waiting_time=240000):
                 self.not_found("phoneAvailable")
                 self.click_relative(65, 41)            
                 self.control_a()
@@ -102,7 +104,7 @@ class Bot(DesktopBot):
                     continue
             
             #classification section
-            if self.find( "classificationFind", matching=0.97, waiting_time=60000):
+            if self.find( "classificationFind", matching=0.97, waiting_time=240000):
                 self.not_found("classificationFind")
                 self.click_relative(69, 44)            
                 self.control_a()
@@ -112,7 +114,7 @@ class Bot(DesktopBot):
                 self.tab()
             
             #cep section
-            if self.find( "cepFind", matching=0.97, waiting_time=60000):
+            if self.find( "cepFind", matching=0.97, waiting_time=240000):
                 self.not_found("cepFind")
                 self.click_relative(48, 45)            
                 self.control_a()
@@ -133,7 +135,16 @@ class Bot(DesktopBot):
                 self.enter()
                 self.wait(100)
                 self.key_f5()
+                self.wait(1000)
                 continue
+            
+            if self.find( "ofertasFind", matching=0.97, waiting_time=3000):
+                self.not_found("ofertasFind")
+                self.key_f5()
+                self.wait(1000)
+                continue
+            
+            self.wait(3000)
         
         else:
             
@@ -147,47 +158,3 @@ class Bot(DesktopBot):
 if __name__ == '__main__':
     Bot.main()
 
-
-
-# PLANILHA PATH 
-#     fpc = cpf
-                #     name = nome
-                #     date = data
-                #     phone = telefone
-                #     classification = classificacao
-                #     pec = cep
-                #     if self.find( "planilhaFind", matching=0.97, waiting_time=250):
-                #         self.not_found("planilhaFind")
-                #     self.click()
-                #     self.wait(50)
-                #     self.paste(fpc)
-                #     self.wait(50)
-                #     self.tab()
-                #     self.paste(name)
-                #     self.wait(50)
-                #     self.tab()
-                #     self.paste(date)
-                #     self.wait(50)
-                #     self.tab()
-                #     self.paste(phone)
-                #     self.wait(50)
-                #     self.tab()
-                #     self.paste(classification)
-                #     self.wait(50)
-                #     self.tab()
-                #     self.paste(pec)
-                #     self.wait(50)
-                #     self.enter()
-                #     if self.find( "secondChromeFind", matching=0.97, waiting_time=2000):
-                #         self.not_found("secondChromeFind")                    
-                #     self.click()                
-                #     self.key_f5()
-                #     continue
-
-
-            # if self.find( "proposalGoing", matching=0.97, waiting_time=1000):
-            #     self.not_found("proposalGoing")
-            #     self.wait(250)
-            #     self.enter()
-            #     self.key_f5()
-            #     continue
